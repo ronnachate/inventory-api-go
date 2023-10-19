@@ -1,21 +1,26 @@
 package main
 
 import (
-	routes "github.com/ronnachate/inventory-api-go/api/route"
+	"time"
 
-	initializers "github.com/ronnachate/inventory-api-go/initializer"
+	"github.com/gin-gonic/gin"
+	"github.com/ronnachate/inventory-api-go/api/route"
+
+	initializer "github.com/ronnachate/inventory-api-go/initializer"
 )
 
-func init() {
-	config, err := initializers.LoadConfig(".")
+func main() {
+	config, err := initializer.LoadConfig(".")
 	if err != nil {
 		panic(err)
 	}
-	initializers.SetupDatabase(&config)
-}
+	initializer.SetupDatabase(&config)
+	defer initializer.CloseDBConnection()
 
-func main() {
-	r := routes.SetupRouter()
+	contextTimeout := time.Duration(config.ContextTimeout) * time.Second
 
-	r.Run()
+	gin := gin.Default()
+	route.SetupRouter(initializer.DB, contextTimeout, gin)
+
+	gin.Run()
 }

@@ -11,6 +11,9 @@ type Config struct {
 	DBPassword string `mapstructure:"DB_PASS"`
 	DBName     string `mapstructure:"DB_NAME"`
 
+	//context timeout in seconds
+	ContextTimeout int `mapstructure:"CONTEXT_TIMEOUT"`
+
 	LogDirectory   string `mapstructure:"LOG_DIR"`
 	RunningEnv     string `mapstructure:"RUN_ENV"`
 	ApplicationKey string `mapstructure:"APPLICATION_KEY"`

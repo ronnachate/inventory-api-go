@@ -1,18 +1,15 @@
-package routes
+package route
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
-	controllers "github.com/ronnachate/inventory-api-go/api/controller"
+	"gorm.io/gorm"
 )
 
 // SetupRouter sets up the router.
-func SetupRouter() *gin.Engine {
-	r := gin.Default()
+func SetupRouter(db *gorm.DB, timeout time.Duration, gin *gin.Engine) {
+	routerGroup := gin.Group("")
 
-	users := r.Group("/users")
-	{
-		users.GET("/", controllers.GetUsers)
-	}
-
-	return r
+	NewUserRouter(timeout, db, routerGroup)
 }

@@ -19,3 +19,8 @@ func SetupDatabase(config *Config) {
 		log.Fatal("Failed to connect to the Database", err)
 	}
 }
+
+func CloseDBConnection() {
+	dbInstance, _ := DB.DB()
+	_ = dbInstance.Close()
+}

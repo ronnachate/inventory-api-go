@@ -1,4 +1,4 @@
-package controllers
+package controller
 
 import (
 	"net/http"
@@ -12,7 +12,7 @@ type UserController struct {
 }
 
 // GetUsers gets all existing users.
-func GetUsers(c *gin.Context) {
+func (uc *UserController) GetUsers(c *gin.Context) {
 	var users []string = []string{"John", "Jane", "Joe"}
 	c.JSON(http.StatusOK, users)
 }

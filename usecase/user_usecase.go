@@ -12,7 +12,7 @@ type userUsecase struct {
 	contextTimeout time.Duration
 }
 
-func NewTaskUsecase(userRepository domain.UserRepository, timeout time.Duration) domain.UserUsecase {
+func NewUserUsecase(userRepository domain.UserRepository, timeout time.Duration) domain.UserUsecase {
 	return &userUsecase{
 		userRepository: userRepository,
 		contextTimeout: timeout,
