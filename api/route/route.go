@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ronnachate/inventory-api-go/api/controllers"
+	controllers "github.com/ronnachate/inventory-api-go/api/controller"
 )
 
 // SetupRouter sets up the router.
