@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"context"
 	"time"
 
 	"github.com/google/uuid"
@@ -16,4 +17,8 @@ type User struct {
 	Status    UserStatus `gorm:"ForeignKey:StatusID"`
 	CreatedAt time.Time  `gorm:"autoCreateTime"`
 	UpdatedAt time.Time  `gorm:"autoUpdateTime"`
+}
+
+type UserRepository interface {
+	GetByID(c context.Context, id string) (User, error)
 }
