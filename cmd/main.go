@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ronnachate/inventory-api-go/routes"
+	"github.com/ronnachate/inventory-api-go/api/routes"
 )
 
 func main() {
