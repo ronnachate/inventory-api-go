@@ -22,3 +22,7 @@ type User struct {
 type UserRepository interface {
 	GetByID(c context.Context, id string) (User, error)
 }
+
+type UserUsecase interface {
+	GetByID(c context.Context, userID string) (User, error)
+}
