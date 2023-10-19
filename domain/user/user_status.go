@@ -1,4 +1,4 @@
-package models
+package domain
 
 type UserStatus struct {
 	ID   uint64 `gorm:"primaryKey"`
