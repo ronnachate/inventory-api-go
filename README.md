@@ -6,5 +6,5 @@ Inventory Rest api go version with gin and gorm
 
 ```bash
 # development
-$ go run cmd/main.go
+$ go run app/main.go
 ```
