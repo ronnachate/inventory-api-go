@@ -8,7 +8,7 @@ WORKDIR /go/src/app
 COPY . .
 
 # Build the Go app binary
-RUN go build -o main main.go
+RUN go build -o main cmd/main.go
 
 # Start the server using the binary
 CMD ["./main"]
