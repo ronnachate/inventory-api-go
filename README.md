@@ -12,5 +12,11 @@ $ go run app/main.go
 ### Test
 ```bash
 # Run all tests
-go test ./...
+$ go test ./...
+
+# test coverage
+$ go test ./... -coverprofile [OUT_FILE]
+
+# print out coverage in browser
+$ go tool cover -html=[OUT_FILE]
 ```
