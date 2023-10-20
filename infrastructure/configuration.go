@@ -1,4 +1,4 @@
-package initializers
+package infrastucture
 
 import (
 	"github.com/spf13/viper"

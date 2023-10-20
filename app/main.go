@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ronnachate/inventory-api-go/api/route"
 
-	initializer "github.com/ronnachate/inventory-api-go/initializer"
+	initializer "github.com/ronnachate/inventory-api-go/infrastructure"
 )
 
 func main() {

@@ -1,4 +1,4 @@
-package initializers
+package infrastucture
 
 import (
 	"errors"
