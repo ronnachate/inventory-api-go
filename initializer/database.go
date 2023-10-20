@@ -1,6 +1,7 @@
 package initializers
 
 import (
+	"errors"
 	"fmt"
 	"log"
 
@@ -31,5 +32,13 @@ func CloseDBConnection() {
 // Need to be refractor later
 // https://gorm.io/docs/migration.html
 func MigrateDB() {
-	DB.AutoMigrate(&domain.User{})
+	DB.AutoMigrate(&domain.User{}, &domain.UserStatus{})
+	statuses := []domain.UserStatus{
+		{Name: "Active", ID: 1},
+		{Name: "Inactive", ID: 2},
+		{Name: "Deleted", ID: 3},
+	}
+	if err := DB.First(&domain.UserStatus{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+		DB.Create(statuses)
+	}
 }
