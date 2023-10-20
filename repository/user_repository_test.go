@@ -54,16 +54,17 @@ func (s *Suite) Test_repository_GetByID() {
 		id   = uuid.UUID{}
 		name = "test-name"
 	)
+	s.T().Run("success", func(t *testing.T) {
+		s.mock.ExpectQuery(regexp.QuoteMeta(
+			`SELECT * FROM "users" WHERE id = $1 ORDER BY "users"."id" LIMIT 1`)).
+			WithArgs(id.String()).
+			WillReturnRows(sqlmock.NewRows([]string{"id", "name"}).
+				AddRow(id.String(), name))
 
-	s.mock.ExpectQuery(regexp.QuoteMeta(
-		`SELECT * FROM "users" WHERE id = $1 ORDER BY "users"."id" LIMIT 1`)).
-		WithArgs(id.String()).
-		WillReturnRows(sqlmock.NewRows([]string{"id", "name"}).
-			AddRow(id.String(), name))
+		res, err := s.repository.GetByID(context.Background(), id.String())
 
-	res, err := s.repository.GetByID(context.Background(), id.String())
-
-	require.NoError(s.T(), err)
-	assert.Equal(s.T(), id, res.ID)
-	assert.Equal(s.T(), name, res.Name)
+		require.NoError(t, err)
+		assert.Equal(t, id, res.ID)
+		assert.Equal(t, name, res.Name)
+	})
 }
