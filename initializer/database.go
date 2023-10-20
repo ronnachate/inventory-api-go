@@ -32,6 +32,7 @@ func CloseDBConnection() {
 // Need to be refractor later
 // https://gorm.io/docs/migration.html
 func MigrateDB() {
+	DB.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\"")
 	DB.AutoMigrate(&domain.User{}, &domain.UserStatus{})
 	statuses := []domain.UserStatus{
 		{Name: "Active", ID: 1},
