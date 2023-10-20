@@ -5,22 +5,26 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/ronnachate/inventory-api-go/api/route"
-
-	initializer "github.com/ronnachate/inventory-api-go/infrastructure"
+	infrastructure "github.com/ronnachate/inventory-api-go/infrastructure"
 )
 
 func main() {
-	config, err := initializer.LoadConfig(".")
+	config, err := infrastructure.LoadConfig(".")
 	if err != nil {
 		panic(err)
 	}
-	initializer.SetupDatabase(&config)
-	defer initializer.CloseDBConnection()
+
+	infrastructure.SetupDatabase(&config)
+	defer infrastructure.CloseDBConnection()
 
 	contextTimeout := time.Duration(config.ContextTimeout) * time.Second
 
 	gin := gin.Default()
-	route.SetupRouter(initializer.DB, contextTimeout, gin)
+	infrastructure.Logger = infrastructure.SetupLogger(config)
+
+	route.SetupRouter(infrastructure.DB, contextTimeout, gin)
+
+	gin.Use()
 
 	gin.Run()
 }
