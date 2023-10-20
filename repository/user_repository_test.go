@@ -67,4 +67,15 @@ func (s *Suite) Test_repository_GetByID() {
 		assert.Equal(t, id, res.ID)
 		assert.Equal(t, name, res.Name)
 	})
+
+	s.T().Run("error", func(t *testing.T) {
+		s.mock.ExpectQuery(regexp.QuoteMeta(
+			`SELECT * FROM "users" WHERE id = $1 ORDER BY "users"."id" LIMIT 1`)).
+			WithArgs(id.String()).
+			WillReturnError(sql.ErrNoRows)
+
+		_, err := s.repository.GetByID(context.Background(), id.String())
+
+		assert.Error(t, err)
+	})
 }
