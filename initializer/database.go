@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/ronnachate/inventory-api-go/domain"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -18,9 +19,15 @@ func SetupDatabase(config *Config) {
 	if err != nil {
 		log.Fatal("Failed to connect to the Database", err)
 	}
+
+	MigrateDB()
 }
 
 func CloseDBConnection() {
 	dbInstance, _ := DB.DB()
 	_ = dbInstance.Close()
+}
+
+func MigrateDB() {
+	DB.AutoMigrate(&domain.User{})
 }
