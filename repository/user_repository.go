@@ -20,7 +20,7 @@ func NewUserRepository(db *gorm.DB) domain.UserRepository {
 func (ur *userRepository) GetByID(c context.Context, id string) (domain.User, error) {
 	var user domain.User
 
-	result := ur.DB.First(&user, "id = ?", id)
+	result := ur.DB.Model(&domain.User{}).Preload("Status").First(&user, "id = ?", id)
 	if result.Error != nil {
 		return user, result.Error
 	}
