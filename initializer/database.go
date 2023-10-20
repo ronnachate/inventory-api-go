@@ -28,6 +28,8 @@ func CloseDBConnection() {
 	_ = dbInstance.Close()
 }
 
+// Need to be refractor later
+// https://gorm.io/docs/migration.html
 func MigrateDB() {
 	DB.AutoMigrate(&domain.User{})
 }
