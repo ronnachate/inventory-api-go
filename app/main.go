@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/ronnachate/inventory-api-go/api/middleware"
 	"github.com/ronnachate/inventory-api-go/api/route"
 	infrastructure "github.com/ronnachate/inventory-api-go/infrastructure"
 )
@@ -22,9 +23,9 @@ func main() {
 	gin := gin.Default()
 	infrastructure.Logger = infrastructure.SetupLogger(config)
 
-	route.SetupRouter(infrastructure.DB, contextTimeout, gin)
+	gin.Use(middleware.ApplicationKeyMiddleware(config))
 
-	gin.Use()
+	route.SetupRouter(infrastructure.DB, contextTimeout, gin)
 
 	gin.Run()
 }
