@@ -17,6 +17,15 @@ func NewUserRepository(db *gorm.DB) domain.UserRepository {
 	}
 }
 
+func (ur *userRepository) GetUsers(c context.Context, offset int, limit int) ([]domain.User, error) {
+	var users []domain.User
+	result := ur.DB.Model(&domain.User{}).Preload("Status").Offset(offset).Limit(limit).Find(&users)
+	if result.Error != nil {
+		return users, result.Error
+	}
+	return users, nil
+}
+
 func (ur *userRepository) GetByID(c context.Context, id string) (domain.User, error) {
 	var user domain.User
 
