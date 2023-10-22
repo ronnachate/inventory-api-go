@@ -82,10 +82,10 @@ func (s *Suite) Test_repository_GetByID() {
 
 func (s *Suite) Test_repository_GetUsers() {
 	var (
-		id     = uuid.UUID{}
-		name   = "test-name"
-		limit  = 10
-		offset = 0
+		id   = uuid.UUID{}
+		name = "test-name"
+		page = 1
+		rows = 10
 	)
 	s.T().Run("success", func(t *testing.T) {
 		s.mock.ExpectQuery(regexp.QuoteMeta(
@@ -93,7 +93,7 @@ func (s *Suite) Test_repository_GetUsers() {
 			WillReturnRows(sqlmock.NewRows([]string{"id", "name"}).
 				AddRow(id.String(), name))
 
-		users, err := s.repository.GetUsers(context.Background(), offset, limit)
+		users, err := s.repository.GetUsers(context.Background(), page, rows)
 
 		require.NoError(t, err)
 		assert.Equal(t, 1, len(users))
@@ -106,7 +106,7 @@ func (s *Suite) Test_repository_GetUsers() {
 			`SELECT * FROM "users" LIMIT 10`)).
 			WillReturnError(sql.ErrNoRows)
 
-		_, err := s.repository.GetUsers(context.Background(), offset, limit)
+		_, err := s.repository.GetUsers(context.Background(), page, rows)
 
 		assert.Error(t, err)
 	})

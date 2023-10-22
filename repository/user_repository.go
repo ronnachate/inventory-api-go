@@ -17,9 +17,9 @@ func NewUserRepository(db *gorm.DB) domain.UserRepository {
 	}
 }
 
-func (ur *userRepository) GetUsers(c context.Context, offset int, limit int) ([]domain.User, error) {
+func (ur *userRepository) GetUsers(c context.Context, page int, rows int) ([]domain.User, error) {
 	var users []domain.User
-	result := ur.DB.Model(&domain.User{}).Preload("Status").Offset(offset).Limit(limit).Find(&users)
+	result := ur.DB.Model(&domain.User{}).Preload("Status").Scopes(NewPagination(page, rows).PageResult).Find(&users)
 	if result.Error != nil {
 		return users, result.Error
 	}
