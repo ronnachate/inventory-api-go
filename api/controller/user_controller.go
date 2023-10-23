@@ -17,7 +17,7 @@ type UserController struct {
 // GetUsers gets all existing users.
 func (uc *UserController) GetUsers(c *gin.Context) {
 	var page = c.DefaultQuery("page", "1")
-	intPage, err := strconv.Atoi(page)
+	uintPage, err := strconv.ParseUint(page, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "Invalid page params"})
 		infrastructure.Logger.Error().Msg(fmt.Sprintf("GetUsers error, Invalid page params with %s", page))
@@ -25,14 +25,14 @@ func (uc *UserController) GetUsers(c *gin.Context) {
 	}
 
 	var rows = c.DefaultQuery("rows", "10")
-	intRows, err := strconv.Atoi(rows)
+	uintRows, err := strconv.ParseUint(rows, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "Invalid rows params"})
 		infrastructure.Logger.Error().Msg(fmt.Sprintf("GetUsers error, Invalid rows params with %s", rows))
 		return
 	}
 
-	users, err := uc.UserUsecase.GetUsers(c, intPage, intRows)
+	users, err := uc.UserUsecase.GetUsers(c, int(uintPage), int(uintRows))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: "Internal error"})
 		infrastructure.Logger.Error().Msg(fmt.Sprintf("GetUsers error with %s", err.Error()))
