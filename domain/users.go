@@ -25,5 +25,6 @@ type UserRepository interface {
 }
 
 type UserUsecase interface {
+	GetUsers(c context.Context, page int, rows int) ([]User, error)
 	GetByID(c context.Context, userID string) (User, error)
 }

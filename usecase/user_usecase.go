@@ -19,6 +19,12 @@ func NewUserUsecase(userRepository domain.UserRepository, timeout time.Duration)
 	}
 }
 
+func (uu *userUsecase) GetUsers(c context.Context, page int, rows int) ([]domain.User, error) {
+	ctx, cancel := context.WithTimeout(c, uu.contextTimeout)
+	defer cancel()
+	return uu.userRepository.GetUsers(ctx, page, rows)
+}
+
 func (uu *userUsecase) GetByID(c context.Context, userID string) (domain.User, error) {
 	ctx, cancel := context.WithTimeout(c, uu.contextTimeout)
 	defer cancel()

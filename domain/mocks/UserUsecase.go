@@ -38,6 +38,32 @@ func (_m *UserUsecase) GetByID(c context.Context, userID string) (domain.User, e
 	return r0, r1
 }
 
+// GetUsers provides a mock function with given fields: c, page, rows
+func (_m *UserUsecase) GetUsers(c context.Context, page int, rows int) ([]domain.User, error) {
+	ret := _m.Called(c, page, rows)
+
+	var r0 []domain.User
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) ([]domain.User, error)); ok {
+		return rf(c, page, rows)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) []domain.User); ok {
+		r0 = rf(c, page, rows)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.User)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int, int) error); ok {
+		r1 = rf(c, page, rows)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // NewUserUsecase creates a new instance of UserUsecase. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewUserUsecase(t interface {
