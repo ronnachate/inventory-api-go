@@ -38,17 +38,17 @@ func (_m *UserRepository) GetByID(c context.Context, id string) (domain.User, er
 	return r0, r1
 }
 
-// GetUsers provides a mock function with given fields: c, offset, limit
-func (_m *UserRepository) GetUsers(c context.Context, offset int, limit int) ([]domain.User, error) {
-	ret := _m.Called(c, offset, limit)
+// GetUsers provides a mock function with given fields: c, page, rows
+func (_m *UserRepository) GetUsers(c context.Context, page int, rows int) ([]domain.User, error) {
+	ret := _m.Called(c, page, rows)
 
 	var r0 []domain.User
 	var r1 error
 	if rf, ok := ret.Get(0).(func(context.Context, int, int) ([]domain.User, error)); ok {
-		return rf(c, offset, limit)
+		return rf(c, page, rows)
 	}
 	if rf, ok := ret.Get(0).(func(context.Context, int, int) []domain.User); ok {
-		r0 = rf(c, offset, limit)
+		r0 = rf(c, page, rows)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]domain.User)
@@ -56,7 +56,7 @@ func (_m *UserRepository) GetUsers(c context.Context, offset int, limit int) ([]
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, int, int) error); ok {
-		r1 = rf(c, offset, limit)
+		r1 = rf(c, page, rows)
 	} else {
 		r1 = ret.Error(1)
 	}

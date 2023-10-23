@@ -20,7 +20,7 @@ type User struct {
 }
 
 type UserRepository interface {
-	GetUsers(c context.Context, offset int, limit int) ([]User, error)
+	GetUsers(c context.Context, page int, rows int) ([]User, error)
 	GetByID(c context.Context, id string) (User, error)
 }
 
