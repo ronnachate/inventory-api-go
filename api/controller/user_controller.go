@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ronnachate/inventory-api-go/domain"
@@ -15,8 +16,29 @@ type UserController struct {
 
 // GetUsers gets all existing users.
 func (uc *UserController) GetUsers(c *gin.Context) {
+	var page = c.DefaultQuery("page", "1")
+	intPage, err := strconv.Atoi(page)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "Invalid page params"})
+		infrastructure.Logger.Error().Msg(fmt.Sprintf("GetUsers error, Invalid page params with %s", page))
+		return
+	}
 
-	var users []string = []string{"John", "Jane", "Joe"}
+	var rows = c.DefaultQuery("rows", "10")
+	intRows, err := strconv.Atoi(rows)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "Invalid rows params"})
+		infrastructure.Logger.Error().Msg(fmt.Sprintf("GetUsers error, Invalid rows params with %s", rows))
+		return
+	}
+
+	users, err := uc.UserUsecase.GetUsers(c, intPage, intRows)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: "Internal error"})
+		infrastructure.Logger.Error().Msg(fmt.Sprintf("GetUsers error with %s", err.Error()))
+		return
+	}
+
 	c.JSON(http.StatusOK, users)
 }
 
