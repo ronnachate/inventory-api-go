@@ -16,13 +16,6 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-func setUserID(userID string) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Set("x-user-id", userID)
-		c.Next()
-	}
-}
-
 func TestGetByID(t *testing.T) {
 	userID := uuid.UUID{}
 
