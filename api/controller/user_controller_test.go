@@ -138,6 +138,63 @@ func TestGetUsers(t *testing.T) {
 		mockUserUsecase.AssertExpectations(t)
 	})
 
+	t.Run("invalid page params", func(t *testing.T) {
+		mockUserUsecase := new(mocks.UserUsecase)
+
+		gin := gin.Default()
+
+		rec := httptest.NewRecorder()
+
+		uc := &controller.UserController{
+			UserUsecase: mockUserUsecase,
+		}
+
+		//setup router
+		gin.GET("/users", uc.GetUsers)
+
+		body, err := json.Marshal(domain.ErrorResponse{Message: "Invalid page params"})
+		assert.NoError(t, err)
+
+		bodyString := string(body)
+
+		req := httptest.NewRequest(http.MethodGet, "/users?page=string", nil)
+		gin.ServeHTTP(rec, req)
+
+		assert.Equal(t, http.StatusBadRequest, rec.Code)
+
+		assert.Equal(t, bodyString, rec.Body.String())
+
+		mockUserUsecase.AssertExpectations(t)
+	})
+
+	t.Run("invalid rows params", func(t *testing.T) {
+		mockUserUsecase := new(mocks.UserUsecase)
+
+		gin := gin.Default()
+
+		rec := httptest.NewRecorder()
+
+		uc := &controller.UserController{
+			UserUsecase: mockUserUsecase,
+		}
+
+		//setup router
+		gin.GET("/users", uc.GetUsers)
+
+		body, err := json.Marshal(domain.ErrorResponse{Message: "Invalid rows params"})
+		assert.NoError(t, err)
+
+		bodyString := string(body)
+
+		req := httptest.NewRequest(http.MethodGet, "/users?rows=string", nil)
+		gin.ServeHTTP(rec, req)
+
+		assert.Equal(t, http.StatusBadRequest, rec.Code)
+
+		assert.Equal(t, bodyString, rec.Body.String())
+
+		mockUserUsecase.AssertExpectations(t)
+	})
 }
 
 func TestGetByID(t *testing.T) {
