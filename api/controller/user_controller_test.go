@@ -16,6 +16,47 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
+func TestGetUsers(t *testing.T) {
+	userID := uuid.UUID{}
+	page := 1
+	rows := 10
+
+	t.Run("success", func(t *testing.T) {
+		mockUser := domain.User{
+			ID: userID,
+		}
+
+		mockUserUsecase := new(mocks.UserUsecase)
+
+		mockUserUsecase.On("GetUsers", mock.Anything, page, rows).Return([]domain.User{mockUser}, nil)
+
+		gin := gin.Default()
+
+		rec := httptest.NewRecorder()
+
+		uc := &controller.UserController{
+			UserUsecase: mockUserUsecase,
+		}
+
+		//setup router
+		gin.GET("/users", uc.GetUsers)
+
+		body, err := json.Marshal([]domain.User{mockUser})
+		assert.NoError(t, err)
+
+		bodyString := string(body)
+
+		req := httptest.NewRequest(http.MethodGet, "/users", nil)
+		gin.ServeHTTP(rec, req)
+
+		assert.Equal(t, http.StatusOK, rec.Code)
+
+		assert.Equal(t, bodyString, rec.Body.String())
+
+		mockUserUsecase.AssertExpectations(t)
+	})
+}
+
 func TestGetByID(t *testing.T) {
 	userID := uuid.UUID{}
 
