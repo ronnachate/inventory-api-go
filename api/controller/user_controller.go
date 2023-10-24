@@ -19,9 +19,9 @@ type UserController struct {
 // @description  Get user list with pagination
 // @tags user
 // @produce json
-// @param page path int true "result page pagination"
-// @param rows path int true "result rows pagination"
-// @response 200 {object} domain.User "OK"
+// @param page path int true "pagination page parameter"
+// @param rows path int true "pagination rows parameter"
+// @response 200 {object} []domain.User "OK"
 // @response 400 {object} domain.ErrorResponse "Invalid page params"
 // @response 400 {object} domain.ErrorResponse "Invalid rows params"
 // @response 500 {object} domain.ErrorResponse "Internal Server Error"

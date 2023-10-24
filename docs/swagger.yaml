@@ -1,0 +1,95 @@
+definitions:
+  domain.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  domain.User:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: string
+      lastname:
+        type: string
+      name:
+        type: string
+      status:
+        $ref: '#/definitions/domain.UserStatus'
+      statusID:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+  domain.UserStatus:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /users:
+    get:
+      description: Get user list with pagination
+      parameters:
+      - description: pagination page parameter
+        in: path
+        name: page
+        required: true
+        type: integer
+      - description: pagination rows parameter
+        in: path
+        name: rows
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.User'
+            type: array
+        "400":
+          description: Invalid rows params
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Get Users
+      tags:
+      - user
+  /users/{userId}:
+    get:
+      description: Get user by id
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.User'
+        "404":
+          description: No user found
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Get User by id
+      tags:
+      - user
+swagger: "2.0"
