@@ -14,7 +14,18 @@ type UserController struct {
 	UserUsecase domain.UserUsecase
 }
 
-// GetUsers gets all existing users.
+// GetUsers godoc
+// @summary Get Users
+// @description  Get user list with pagination
+// @tags user
+// @produce json
+// @param page path int true "result page pagination"
+// @param rows path int true "result rows pagination"
+// @response 200 {object} domain.User "OK"
+// @response 400 {object} domain.ErrorResponse "Invalid page params"
+// @response 400 {object} domain.ErrorResponse "Invalid rows params"
+// @response 500 {object} domain.ErrorResponse "Internal Server Error"
+// @Router	/users [get]
 func (uc *UserController) GetUsers(c *gin.Context) {
 	var page = c.DefaultQuery("page", "1")
 	uintPage, err := strconv.ParseUint(page, 10, 64)
@@ -42,6 +53,15 @@ func (uc *UserController) GetUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, users)
 }
 
+// GetUserById godoc
+// @summary Get User by id
+// @description  Get user by id
+// @tags user
+// @Produce json
+// @param id path int true "user id"
+// @response 200 {object} domain.User "OK"
+// @response 404 {object} domain.ErrorResponse "No user found"
+// @Router	/users/{userId} [get]
 func (uc *UserController) GetUserById(c *gin.Context) {
 	user, err := uc.UserUsecase.GetByID(c, c.Param("id"))
 	if err != nil {
