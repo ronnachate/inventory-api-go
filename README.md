@@ -20,3 +20,13 @@ $ go test ./... -coverprofile [OUT_FILE]
 # print out coverage in browser
 $ go tool cover -html=[OUT_FILE]
 ```
+
+## Update swagger docs
+
+```bash
+# install swagger cli
+$ go install github.com/swaggo/swag/cmd/swag@latest
+
+# generated docs/docs.go and docs/swagger.*
+$ swag init -g ./app/main.go
+```
