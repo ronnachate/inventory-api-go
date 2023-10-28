@@ -21,6 +21,11 @@ $ go test ./... -coverprofile [OUT_FILE]
 $ go tool cover -html=[OUT_FILE]
 ```
 
+## OpenAPI documentation
+
+* request to /swagger/index.html
+
+
 ## Update swagger docs
 
 ```bash
@@ -30,3 +35,4 @@ $ go install github.com/swaggo/swag/cmd/swag@latest
 # generated docs/docs.go and docs/swagger.*
 $ swag init -g ./app/main.go
 ```
+
